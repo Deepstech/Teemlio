@@ -1,7 +1,7 @@
 # Teemlio - Event Management Platform Requirements
 
 ## Overview
-Teemlio is an event management platform with web and mobile applications enabling users to create, manage, and track events with schedules, checklists, inventory, real-time location tracking, messaging, and subscription management capabilities.
+Teemlio is an event management platform with web and mobile applications enabling users to create, manage, and track events with schedules, checklists, inventory, real-time location tracking, messaging, subscription management, and team collaboration capabilities.
 
 ---
 
@@ -125,22 +125,6 @@ Teemlio is an event management platform with web and mobile applications enablin
   - All: Available to all users
   - Email: Specific email addresses only
 
-#### Coupon Examples
-1. **3-Month Free Trial**:
-   - Code: ABCXYZ
-   - Applicable On: Invoices
-   - Discount %: 100
-   - Expiry Date: 04-30-2026
-   - Max Per Account Limit: 3
-   - Applicable To: Email (abc@gmail.com)
-
-2. **Holiday Discount**:
-   - Code: CHRIS2025
-   - Applicable On: Signup
-   - Discount %: 20
-   - Expiry Date: 25-12-2025
-   - Applicable To: All
-
 ### Auto-Payment System
 
 #### Auto-Renewal Behavior
@@ -161,40 +145,21 @@ Teemlio is an event management platform with web and mobile applications enablin
 
 - **User Removal Before Renewal**:
   - Remove 1 user 5 days before renewal: $39.99 + ($9.99 × 1) = $49.98
-  - 5 active users, remove 1, inactivate 1: $39.99 + ($9.99 × 2) = $59.97
 
 - **User Reactivation**:
   - Inactive user reactivated 3 days before renewal:
-    - If auto-renewal ON: Prorated charge added ($9.99/30 × 3 = $0.99)
+    - If auto-renewal ON: Prorated charge added
     - At renewal: $39.99 + ($9.99 × 2) = $59.97
-  - Manual payment: Recalculate and charge accordingly
-
-#### Manual Payment Scenario
-- **Subscription Ends**: Nov 20, 2025
-- **Manual Payment**: Dec 1, 2025
-- **Next Invoice Date**: Jan 1, 2026
-- **Scenario**: 2 active users, inactivate 1 on Nov 24, pay on same date
-  - Invoice generated for 2 users: $39.99 + $19.98 = $59.97
-  - After inactivation: Recalculate to $39.99 + $9.99 = $49.98
-  - Payment amount adjusted automatically
 
 ### Invoice Management
 
 #### Invoice Creation
 - **Auto-Renewal ON**: Invoice auto-paid on renewal date
 - **Auto-Renewal OFF**: Invoice created upon subscription expiry
-- **Invoice Display**: List with amounts, dates, descriptions
 
 #### Invoice Actions
-- **Pay Button**: 
-  - Visible for unpaid invoices
-  - Hidden after successful payment
+- **Pay Button**: Visible for unpaid invoices, hidden after payment
 - **Download**: Download payment details
-
-#### Invoice Recalculation
-- Users added/removed/inactivated/reactivated
-- Prorated amounts calculated
-- Invoice updated before payment
 
 ---
 
@@ -205,882 +170,348 @@ Teemlio is an event management platform with web and mobile applications enablin
 - **Login**: Admin logs in with company listing
 - **Company List**: Shows all companies with filtering by name
 - **Subscription Access**: Cannot manage subscription (Owner only)
-
-### Company Management
-- **List View Columns**: Company Name, Owner Name, Email, Phone, Action
-- **Action Options**: "Enter as Owner"
-- **Owner Access**: Full system access upon "Enter as Owner" selection
-- **Chat Access**: Admin can view chats (read-only, cannot send messages)
-- **Redirect**: After login, redirect to company page
+- **Company Management**:
+  - **List View Columns**: Company Name, Owner Name, Email, Phone, Action
+  - **Action Options**: "Enter as Owner"
+  - **Owner Access**: Full system access upon "Enter as Owner" selection
+  - **Chat Access**: Admin can view chats (read-only, cannot send messages)
 
 ---
 
-## 4. Contact Management
+## 4. Notification Settings (March 2026)
 
-### Add Contact Options
-- Add New Contact
-- Import Contacts
+### Notification Settings Page
 
-### Import Contacts
-- **Page Name**: Import Contacts
-- **File Format**: Excel only (show "Invalid File Format" error for other types)
-- **Required Columns**: Name, Email, Phone Number, Address, City, State, Country, Zip Code
-- **Template**: Available for download
-- **Validation Rules**:
-  - All columns required
-  - Show "Required" error if any missing
-  - No duplicate emails
-  - Check if email exists in users or contacts (show "Email already exist" error)
-  - No duplicate contact values
+#### Structure
+- **3 Main Sections**: Email, Web Notifications, Mobile Notifications
+- **Default State**: All notifications ON
+- **Toggle Controls**: Enable/Disable per notification type
+- **Bulk Controls**: "Enable All" and "Disable All" buttons per section
 
-- **Process**:
-  1. Upload Excel file
-  2. Preview step showing all contacts
-  3. Display valid/invalid count
-  4. Show errors if any
-  5. Confirm import
-  6. Display: Total contacts, Added contacts, Skipped contacts
-  7. Option to edit imported contacts
+#### Access Control
+- **Owner**: Can see and configure all notification settings
+- **Admin**: Cannot see Email section
+- **Independent Settings**: Owner disabled ≠ Admin disabled (per user settings)
 
----
+### Email Notifications (Owner Only)
+1. **Payment Successful for Newly Added User** - Confirmation when payment for new user succeeds
+2. **Membership Renewed Successfully** - Confirmation when membership renews
+3. **Payment Failed** - Notification when payment attempt fails
+4. **Manual Payment Successful** - Confirmation when manual payment succeeds
+5. **Membership Expiration Reminder** - Reminder before membership expires
 
-## 5. Inventory Management
+### Web Notifications
+1. **Payment Successful** (Owner only) - Notification when payment completes
+2. **Membership Renewed Successfully** (Admin & Owner) - Confirmation when membership renews
+3. **Membership Expiring** (Admin & Owner) - Reminder before membership expires
+4. **Membership Expired** (Admin & Owner) - Alert when membership expires
 
-### Import Inventory Items
-- **Page Name**: Import Inventory Items
-- **File Format**: Excel only
-- **Required Columns**: Inventory Items, Unit
-- **Template**: Available for download
-- **Auto-Create Units**: If unit not in system, create it automatically
-- **Sync**: Web and Mobile sync support
-- **Validation Rules**:
-  - All columns required
-  - No duplicate values
-  - Display valid/invalid count
-
-- **Process**:
-  1. Upload Excel file
-  2. Preview step with all items
-  3. Show valid/invalid count and errors
-  4. Confirm import
-  5. Display: Total, Added, Skipped
-  6. Options: "Back to Inventory Items List" or "Add More Inventory Items"
-  7. Edit capability (web and mobile)
-
-### Import Inventory (Event-level)
-- **Add Options**:
-  1. Add New Inventory Item
-  2. Add from Inventory List
-  3. Import Inventory
-
-- **File Format**: Excel only
-- **Required Columns**: Inventory and Asset, Qty, Unit
-- **Template**: Available for download
-- **Validation**: Same as Import Inventory Items
-- **Template Inheritance**: 
-  - Inventory added to template gets included in new events
-  - New inventory added to template after event creation doesn't appear in existing events
+### Mobile Notifications
+1. **New Message** (Admin & Owner) - Notification when new message received
 
 ---
 
-## 6. Schedule Management
+## 5. Mobile App Updates
+
+### Update Popup System
+
+#### Force Update
+- **Trigger**: App version < minimum supported version
+- **Behavior**: 
+  - Blocks all pages (non-dismissible)
+  - Cannot be skipped
+  - Must update to continue
+  - Opens App Store/Play Store on tap
+  - Reappears after app relaunch
+
+#### Optional Update
+- **Trigger**: Minimum supported version ≤ app version < latest version
+- **Behavior**:
+  - Can be skipped once per user
+  - User continues app after skip
+  - Other users still see update
+  - Opens App Store/Play Store on tap
+
+#### No Update Required
+- **Trigger**: App version = latest version
+- **Behavior**: No popup shown
+
+#### Dynamic Update Detection
+- **Server Version Change**: If server version changes while app open:
+  - Shows appropriate popup immediately
+  - Force update persists even if optional available
+  - Correct popup shown after app relaunch
+
+#### Internet Requirement
+- **Update Button**: Only functional with internet connection
+
+---
+
+## 6. Team Members Management
+
+### Team Members List
+
+#### Page Overview
+- **Page Name**: Team Members
+- **Content**: All team members for company
+- **Search**: By name
+
+#### List Display
+- **Columns**: Picture, Name, Teemlio Handle, Email, Phone, Address, Action
+- **Phone**: Proper format display
+- **Address**: Comma-separated (no comma if missing)
+- **Actions**: Edit, Delete
+
+### Add Team Member
+
+#### Add Popup
+- **Title**: "Add New Team Member"
+- **Fields**: Profile Picture, Name, Email, Phone Number, Teemlio Handle, Address
+- **Helper Text**: "The Unique Username is Used to Identify Team Member on Teemlio Making it Easier for App-to-App Messaging and Live Location Sharing."
+- **Required Fields**: Name, Email, Phone No, Teemlio Handle
+
+#### Validation
+- **Error Display**: "Required" error with field highlight
+- **Email Format**: Must be valid
+- **Teemlio Handle**: Unique per company
+- **Combination**: User ID + Teemlio Handle must be unique
+
+#### Billing on User Addition
+- **Prorated Calculation**: Days remaining × daily rate
+  - Example: Oct 1 subscription, added Oct 10, $10/user/month
+  - Amount: $10/30 × 20 days = $6.67
+- **No Refund**: Deleted users don't get refunded
+- **Success Message**: "User added successfully"
+
+#### Payment Processing
+- **Automatic Deduction**: Based on remaining subscription days
+- **No Payment, No Add**: User not added if payment fails
+- **Payment Success**: User added if payment succeeds
+
+### Edit Team Member
+
+#### Edit Popup
+- **Fields**: Name, Email, Phone No, Teemlio Handle, Address
+- **Pre-filled**: All current values shown
+- **Profile Photo**: Compressed image display
+- **Success Message**: "User updated successfully"
+
+#### Payment on Edit
+- **Payment Option**: Available after save
+- **Payment Failure**: User not updated if payment fails
+
+### Delete Team Member
+
+#### Delete Process
+- **Confirmation Dialog**: Required before deletion
+- **Soft Delete**: Marked as deleted in database
+- **Login Prevention**: Cannot login with deleted user
+- **Email Reuse**: Can add new user with deleted user's email
+
+---
+
+## 7. Contact Management
+
+### Contacts List
+
+#### Page Overview
+- **Page Name**: Contacts
+- **Left Panel**: All added contacts
+- **Search**: By name, email, phone
+- **Add Button**: "Add New Contact"
+
+#### Contact List Display
+- **Columns**: Profile image, Name, Phone no, Contact tags
+- **Contact Tags**: Colored (from global settings), can be multiple
+
+### Contact Details
+
+#### Right Panel
+- **Top Information**: Profile image, Name, Contact tags, Teemlio Handle, Phone no, Email id, Address
+
+#### Tabs (2 tabs)
+1. **Events Tab** (Default - selected in pink)
+   - All events for this contact (latest on top)
+   - Display: Event name, Address, Date (from-to), Description
+
+2. **Notes Tab**
+   - All notes for this contact
+   - Default: "No Data" if no notes
+   - **Columns**: Note, Created by, Timestamp, Action
+   - **Sorting**: Works on all columns except Action
+   - **Add Notes**: "Add New Notes" button (adds blank line on top)
+   - **Actions**: Edit, Delete
+   - **Messages**: 
+     - Add: "Notes Saved"
+     - Edit: "Updated Notes"
+     - Delete: "Notes Deleted"
+
+#### Contact Deletion
+- **Impact**: Everything linked with contact deleted except messages
+- **Teemlio Handle**: Cannot have same handle in both user and contact in same company
+
+### Add Contact
+
+#### Add Popup
+- **Fields**: Profile Picture, Name, Email, Phone no, Teemlio Handle, Address
+- **Required Fields**: Name, Email, Phone no, Tags
+- **Phone Validation**: Numeric, +, (), -, space accepted
+- **Success Message**: "Contact added successfully"
+
+#### Email & Handle Validation
+- **Duplicate Email**: Cannot create in same company
+- **Multi-Company**: Can create with same email in different companies
+- **User Email Conflict**: Cannot use same email in user and contact in same company
+- **Handle Uniqueness**: Cannot use same Teemlio handle twice per company (including users)
+
+---
+
+## 8. Event Templates
+
+### Event Template List
+
+#### Page Overview
+- **Page Name**: Templates
+- **Search**: On top left (by title and description)
+- **Add Button**: On top right
+- **Source**: Templates from both template page and events saved as templates
+
+#### Template List Display
+- **Columns**: Event Title, Event description, Date modified, Action
+- **Date Format**: DD/MM/YYYY
+- **Clickable**: Event title (redirects to detail page)
+- **Sorting**: Working
+- **Pagination**: Working
+- **Delete**: Shows confirmation message
+
+### Add Template
+
+#### Add Popup
+- **Title**: "Add Event Template"
+- **Fields**: Title, Event Description / Event Details
+- **Required**: Both fields
+- **Editor**: All formatting options working
+- **After Add**: Redirects to template detail page
+
+### Template Detail Page
+
+#### Left Panel
+- **Display**: Title, Description
+- **Edit Icon**: Opens edit popup with prefilled values
+- **Success Message**: "Updated successfully"
+
+#### Right Panel - Tabs (4 tabs)
+1. **Event Details Tab** (Default)
+   - **Default**: "No event detail added" if none
+   - **Add Button**: "Add event detail"
+   - **Fields**: Event specialist (users/contacts), Event Details (searchable dropdown)
+   - **Manual Entry**: Saved as string (not ID)
+
+2. **Schedule Tab**
+   - **Columns**: Date & Time, Description, Action
+   - **Date Format**: MM/DD/YYYY
+   - **Actions**: Edit, Delete
+
+3. **Checklist Tab**
+   - **Add Options**: 
+     1. Add from Inventory Item List Template
+     2. Add from Checklist Template
+     3. Add custom inventory asset
+   - **Columns**: Event inventory and Assets, Qty, Action
+
+4. **File and Media Tab**
+   - **Default**: "No folder added"
+   - **Add Folder**: Create new folder
+   - **Folder Name**: Unique per template
+   - **Actions**: Edit, Delete
+
+---
+
+## 9. Schedule List Management
 
 ### Schedule List Page
 - **Required Field**: Description
 - **Operations**: Add, Search, Update, Delete (with confirmation)
-- **Validation**:
-  - Description accepts alphanumeric and special characters
-  - Soft delete: Don't remove from events/templates if deleted from list
-  - Show pagination
-
-### Schedule Page (All Events View)
-
-#### Event List (Left Panel)
-- **List Name**: Events
-- **Event Scope**: Current and future events only (recent on top)
-- **Content Display**:
-  - Show all events for company
-  - Remove deleted events from list
-- **Search**: By event name
-- **Filter**: By date range
-- **Filter Logic**: 
-  - Date range selection
-  - If event overlaps with selected date, show it
-  - Example: Event 1 (Oct 10-15) and Event 2 (Oct 13-Nov 2), selecting Oct 14 shows both
-  - After filter applied, search operates on filtered results only
-- **Default Selection**: Top event auto-selected, right panel shows its data
-
-#### Schedule List (Right Panel)
-- **Default State**: 
-  - Blank events show "No Data"
-  - Template without schedules shows "No Data"
-  - Template with schedules shows them by default
-
-- **List View**:
-  - Columns: Date & Time, Description, Status, Action
-  - Add button opens blank line on top
-
-- **Date & Time**:
-  - Calendar picker
-  - Format: MM/DD/YYYY HH:MM AM/PM
-
-- **Description**:
-  - Alphanumeric and special characters accepted
-  - Rich text formatting supported
-
-- **Status**:
-  - Default: Not completed
-  - Checkbox to mark completed
-
-- **Actions**:
-  - Save (with validation)
-  - Cancel (without saving)
-  - Rearrange (drag-and-drop)
-  - Template sequence maintained by default
-
-- **Sync Across Views**:
-  - Add from this page → appears in event detail
-  - Add from event detail → appears here
-  - Edit reflects on both
-  - Delete reflects on both
-
-### Import Schedule
-- **Page Name**: Import Schedule
-- **File Format**: Excel only
-- **Required Columns**: Date and Time, Description
-- **Template**: Available for download
-- **Preview Columns**: Date and Time, Description, Status
-- **Validation**:
-  - Both columns required
-  - No duplicate values
-  - Display valid/invalid count
-
-- **Process**:
-  1. Upload Excel file
-  2. Preview step
-  3. Show valid/invalid count
-  4. Confirm import
-  5. Display: Total, Added, Skipped
-  6. Edit capability
-  7. Available on: Schedule page, Event schedule tab, Event template schedule tab
-
-- **Template Inheritance**:
-  - Schedules added to template appear in new events
-  - New schedules added to template after event creation don't appear in existing events
+- **Validation**: Alphanumeric and special characters accepted
+- **Soft Delete**: Don't remove from events/templates if deleted from list
+- **Pagination**: Working
 
 ---
 
-## 7. Task Management
+## 10. Task List Management
 
 ### Task List Page
 - **Required Field**: Description
 - **Operations**: Add, Search, Update, Delete (with confirmation)
-- **Validation**:
-  - Description accepts alphanumeric and special characters
-  - Soft delete: Don't remove from events/templates if deleted from list
-  - Show pagination
-
-### Import Task
-- **Page Name**: Import Task
-- **File Format**: Excel only
-- **Required Columns**: Date and Time, Description
-- **Template**: Available for download
-- **Preview Columns**: Date and Time, Description, Status
-- **Validation**:
-  - Both columns required
-  - No duplicate values
-  - Display valid/invalid count
-
-- **Process**:
-  1. Upload Excel file
-  2. Preview step
-  3. Show valid/invalid count
-  4. Confirm import
-  5. Display: Total, Added, Skipped
-  6. Edit capability
-  7. Available on: Task page, Event task tab, Event template task tab
-
-- **Template Inheritance**:
-  - Tasks added to template appear in new events
-  - New tasks added to template after event creation don't appear in existing events
+- **Validation**: Alphanumeric and special characters accepted
+- **Soft Delete**: Don't remove from events/templates if deleted from list
+- **Pagination**: Working
 
 ---
 
-## 8. Event Management
+## 11. Contact & User Constraints
+
+### Email & Handle Uniqueness
+- **Same Teemlio Handle**: Cannot exist in both user and contact in same company
+- **One Record Per Handle**: Per company only
+- **Handle Updates**: Must propagate to all linked records
+
+### Contact Addition
+- **Same Email Different Company**: Allowed
+- **Same Email Same Company**: Not allowed
+- **Email vs User Conflict**: Cannot use same email in user and contact in same company
+- **Teemlio Handle**: Unique across users and contacts per company
+
+---
+
+## 12. Event Management (Summary)
 
 ### Event List
-- **Page Name**: Event List
-- **Search**: By event title (top of page)
-- **Filter**: By date column
-- **Search & Filter Logic**: AND logic (both conditions must match)
-- **Add Button**: "Add New Event" at top of page
+- **Search**: By event title
+- **Filter**: By date (AND logic with search)
+- **Columns**: Event Title, Customer, Owner, Start Date & Time, End Date & Time, Location, Action
+- **Delete**: With confirmation - "Event Deleted"
 
-- **List View Columns**: Event Title, Customer, Owner, Start Date & Time, End Date & Time, Location, Action
-- **Clickable Fields**:
-  - Event Title: Redirects to event detail page
-  - Location: Shows event location
+### Event Detail Page - 5 Tabs
+1. **Event Detail** - Contact details, specialist, event details
+2. **Schedule** - Date & Time, Description, Status
+3. **Checklist** - Inventory items with status tracking
+4. **Files and Media** - Folder management and file uploads
+5. **Live Location** - Specialist location tracking
 
-- **Actions**: Delete with confirmation message
-- **Delete Message**: "Are You Sure You Want to Delete This Event? Deleting This Event Will Remove All Associated Data and Cannot be Undone."
-- **Delete Confirmation**: Shows "Event Deleted" success message
-
-### Event Detail Page
-
-#### Left Panel
-- **Display Information**:
-  - Title
-  - Location (clickable)
-  - Start Date & Time
-  - End Date & Time
-  - Client (with profile icon, name, phone, email)
-  - Owner (with profile icon, name, phone, email)
-  - Event Description
-
-- **Date Format**: MM/DD/YYYY HH:MM AM/PM
-- **Updates**: Real-time reflection of changes
-
-#### Right Panel - Tabs (5 tabs)
-1. **Event Detail** (default selected)
-   - Multiple contact selection
-   - Blank detail for new contact entries
-   - Contact detail editor with formatting options
-   - Event Specialist dropdown (from users and contacts)
-   - Event Details dropdown (from global settings, searchable)
-   - Create new detail option if searched value not in list
-   - Manual detail entry capability
-   - Save details as string (not ID)
-   - Option to save event as template
-
-2. **Schedule**
-   - Default: "No Data" if blank
-   - Columns: Date & Time, Description, Status, Action
-   - Add new schedule option
-   - Date/Time picker with calendar
-   - Format: MM/DD/YYYY HH:MM AM/PM
-   - Status: Default pending (not completed)
-   - Completed checkbox
-   - Reorder capability (drag-and-drop)
-   - Template inheritance: Maintain template sequence by default
-
-3. **Checklist** (Inventory Asset List)
-   - Columns: Event Inventory and Assets, Qty, Status, Action
-   - Default: Pending status (not selected)
-   - Edit capability
-   - Delete with confirmation
-   - Drag-and-drop reorder
-   - Success message after add/update
-   - Add inventory items options:
-     - Add from Inventory Item List Template
-     - Add from Checklist Template
-     - Add Custom Inventory Asset
-   - Inventory popup: Search, checkbox, qty, name, unit
-   - Checklist template popup: Select checklist, show assets
-   - Custom entry: Blank editable name and qty
-   - Status buttons: Loaded, Installed, Picked Up (all clickable, turn green when active)
-   - Pickup: Strikethrough text when picked up from site
-   - Qty validation: No negative values
-   - Sync Across Views:
-     - Add from this page → appears in Inventory page
-     - Add from Inventory page → appears here
-     - Edit reflects on both
-     - Delete reflects on both
-
-4. **Files and Media**
-   - Default: "No Folder Added"
-   - Add folder option
-   - Folder name unique per event (can repeat across different events)
-   - Edit and delete options per folder
-   - Unique validation on folder rename
-   - Template inheritance: Copy all folders and documents to new events
-   - **File Upload**:
-     - Support: Images, Videos, Documents
-     - Batch upload: Up to 10 files simultaneously
-     - File storage: Original and compressed versions
-     - Display: Compressed files with thumbnails
-     - Video display: Thumbnail with video icon
-     - Document support: PDF, DOC, DOCX only
-     - Drag-and-drop: Supported
-     - Progress indicator: 0-100% upload progress
-     - Preview mode: Original size for images
-     - Video preview: Thumbnail with play icon, full playback in popup
-     - Document preview: PDF/DOC preview mode
-
-5. **Live Location**
-   - **Left Panel**: List of event specialists (with checkboxes)
-   - **Right Panel**: Location map
-   - **Validation**: Error if no specialist selected - "No Event Specialist Selected. Please Select at Least One Event Specialists to Send a Live Location Request."
-   - **Request Feature**: Send location request popup with message option
-   - **Multi-select**: Send same message to multiple selected specialists
-   - **Message Delivery**: Through messaging system
-
-### Calendar Page (Dashboard)
-
-#### Default Redirect
-- **On Login**: User redirected to calendar page (if subscription active)
-
-#### Calendar View
-- **Top Display**:
-  - Total events for today
-  - Total upcoming events
-
-- **Calendar Display**:
-  - Event title shown on dates
-  - Default view: Current month
-  - View options: Week, Day, List
-  
-- **Week View**: Sunday to Saturday (e.g., Oct 26 - Nov 1, 2025)
-- **Day View**: Current day only
-- **List View**: All events for current week with date range header (e.g., "26th Oct to 1st Nov 2025")
-- **No Events**: Show "No Events to Display" when empty
-
-#### Events Today (Right Panel)
-- **Display Information**:
-  - Title (clickable, color changes on hover)
-  - Start date
-  - Address
-  - Client name with profile icon
-  - Chat icon
-
-- **Event Count**: Show in bracket next to "Events Today"
-- **Chat**: Clicking chat icon redirects to chat page with person open
-- **Default View**: All contacts/users except logged-in user
+### Calendar Dashboard
+- **Default**: Current month view
+- **Views**: Month, Week, Day, List
+- **Display**: Events for today, upcoming events
+- **Mobile**: Week view default
 
 ### Add/Update Event
-
-#### Initial Selection Popup
-- **Message**: "Select From the Options Below to Create a New Event"
-- **Options**:
-  1. **Blank**: Create new event from scratch
-  2. **Template**: Use pre-defined template
-
-- **Descriptions**:
-  - Blank: "Create a Completely New Event from a Blank Slate with No Pre-filled Details. Perfect for Unique or Custom Events."
-  - Template: "Quickly Set Up an Event Using a Pre-defined Template with Default Settings and Structure, fully customizable to Your Needs."
-
-- **Interaction**: Hover shows hand icon, clickable
-
-#### Blank Event Form
-- **Fields**: Title, Client, Start Date & Time, End Date & Time, Owner, Event Location, Event Description/Event Details
-- **Mandatory Fields**: All of the above
-- **Validation**:
-  - Show "Required" error for missing fields
-  - Highlight missing fields
-  - Title: Alphanumeric only
-  - Event Description: Alphanumeric and special characters, with formatting options (header, bold, italic, bullet list, numbered list, links)
-  - Event Location: Alphanumeric only
-
-- **Date & Time**:
-  - Calendar picker for both start and end
-  - Format: MM/DD/YYYY HH:MM AM/PM
-  - Validation: End date/time cannot be greater than start date/time
-
-- **Client Dropdown**:
-  - Shows all company contacts
-  - Search functionality
-  - Create new contact option if search result not in list
-  - New contact added shows immediately in form
-
-- **Owner Dropdown**:
-  - Shows all company users
-
-- **Back Button**: Return to selection popup
-
-#### Template-Based Event Form
-- **Process**: Select template, then show all fields auto-filled
-- **Auto-fill Fields**: Title, Client, Start Date & Time, End Date & Time, Owner, Event Location, Event Description
-- **Editable**: All auto-filled fields can be edited
-- **Same Validation**: As blank form
-
-### Mobile Calendar
-
-#### Default View
-- **On Login**: User redirected to this page
-- **Page Name**: Calendar
-- **Default Display**: Current week
-- **Month Navigation**: Name of month with left/right arrows
-
-#### Week View
-- **Display**: Sunday to Saturday (e.g., Oct 26 - Nov 1, 2025)
-- **Current Date**: Selected by default
-- **Events**: Show below calendar for selected date
-- **No Events**: Show "No Events to Display"
-- **Navigation**: Left/right arrows show previous/next week
-
-#### View Options
-- Week, Day, List views available
-
-#### Event Details Display
-- **Information Shown**:
-  - Title (clickable → redirects to event detail page)
-  - Start date to End date
-  - Event Address (hyperlink → map with address)
-  - Client name with profile icon
-  - Owner name with profile icon
-  - Phone icon (→ calls contact)
-  - Email icon (→ opens email to contact)
-  - Chat icon (→ redirects to chat page with contact open)
-
-- **Accuracy**: All values display correctly
-- **Scrolling**: Works smoothly
-- **Design**: Matches Figma specifications
+- **Options**: Blank or Template-based
+- **Required**: Title, Client, Start Date & Time, End Date & Time, Owner, Location, Description
+- **Date Validation**: End time cannot be greater than start time
 
 ---
 
-## 9. Inventory Asset List Page
-
-### Event List (Left Panel)
-- **List Name**: Events
-- **Event Scope**: Current and future events only (recent on top)
-- **Content Display**:
-  - Show all events for company
-  - Remove deleted events from list
-- **Search**: By event name
-- **Filter**: By date range
-- **Filter Logic**: 
-  - Date range selection
-  - If event overlaps with selected date, show it
-  - After filter applied, search operates on filtered results only
-- **Default Selection**: Top event auto-selected, right panel shows its data
-
-### Inventory Asset List (Right Panel)
-- **Default State**: 
-  - Blank events show "No Data"
-  - Template without inventory shows "No Data"
-  - Template with inventory shows them by default
-
-- **List View**:
-  - Columns: Event Inventory and Assets, Qty, Status, Action
-  - Add button opens blank line on top
-
-- **Status**:
-  - Default: Pending (not selected)
-  - Clickable buttons: Loaded, Installed, Picked Up (turn green when active)
-
-- **Actions**:
-  - Edit capability
-  - Delete with confirmation
-  - Rearrange (drag-and-drop)
-
-- **Add Inventory Items Options**:
-  1. Add from Inventory Item List Template
-     - Popup with all items from global settings
-     - Search, checkbox, qty column
-     - Name and unit display
-     - Multiple selection and add capability
-
-  2. Add from Checklist Template
-     - Popup with checklist dropdown
-     - Asset list shows after checklist selection
-     - Multiple selection and add capability
-
-  3. Add Custom Inventory Asset
-     - Blank editable name and qty
-     - Add on top of list
-
-- **Qty Validation**: No negative values
-- **Pickup Status**: Strikethrough text when picked up
-- **Sync Across Views**:
-  - Add from this page → appears in event detail
-  - Add from event detail → appears here
-  - Edit reflects on both
-  - Delete reflects on both
-
----
-
-## 10. Files Management
-
-### Files Page
-- **Left Panel**: List of all events (with search and date filter)
-- **Right Panel**: Folders for selected event
-- **Default**: "No Folder Added" when empty
-
-#### Search & Filter
-- **Search**: By event name (top of page)
-- **Date Filter**: Filter by date range
-- **Search Result**: "No Data" if no matches
-- **Filter Result**: Search operates on filtered results
-
-#### File Operations
-- **Upload Types**: Images, Videos, Documents
-- **Batch Upload**: Up to 10 files simultaneously
-- **File Storage**: Original and compressed versions saved
-- **Display**: Compressed files with thumbnails
-- **Document Support**: PDF, DOC, DOCX only
-  - Error for unsupported types (.xls, .xlsx, .txt, etc.)
-- **Drag-and-Drop**: Supported
-- **Upload Progress**: 0-100% indicator
-
-#### File Preview
-- **Images**: Original size in preview mode
-- **Videos**: 
-  - Thumbnail with video icon in list
-  - Thumbnail with play icon in preview
-  - Full playback in popup with proper design
-- **Documents**: Preview mode support
-
-#### Folder Management
-- **Add Folder**: Create new folder
-- **Folder Rules**:
-  - Name unique per event
-  - Can repeat across different events
-  - Edit capability with unique validation
-  - Delete capability
-- **Template Inheritance**: All folders and documents copied to new events created from template
-
----
-
-## 11. Chat & Messaging
-
-### Chat Page Layout
-
-#### Left Section - Message List
-- **List Name**: Messages
-- **Content**: Users and contacts (except logged-in user)
-- **Search**: By name (first name and last name)
-- **Add New Group**: Button on top of search
-- **Default Order**: 
-  - Users/contacts with messages shown on top (most recent first)
-  - Users/contacts without messages shown below
-  - Can sort alphabetically
-- **Tab Structure**:
-  - Direct Message (default)
-  - Group Chat
-  - Archive
-
-#### Direct Message List
-- **Display Per Contact**:
-  - Full name
-  - Profile image
-  - Last message preview
-  - Time or date
-  - Unread message count (if any)
-
-- **Group Chat List**:
-  - Group name
-  - Group profile image
-  - Last message
-  - Message count
-  - Unread count
-
-#### Right Section - Chat Area
-
-##### Direct Message Chat
-- **Default State**: "How Messaging Works" (placeholder with reference text)
-- **Message Display**:
-  - Logged-in user messages: Right side, pink color
-  - Other user messages: Left side
-  - Each message shows: Name, time, message content
-
-- **Header Info**:
-  - Contact name
-  - Profile image
-  - "Click here for contact information" link
-
-- **Message Features**:
-  - Support: Alphanumeric, special characters, emojis
-  - Long messages: 1000+ characters supported
-  - File types: Images, videos, documents
-  - Live location sharing
-  - Message seen indicator: Pink double tick
-  - Unread messages: Show date/time header above first unread
-  - Pagination: Load more messages on scroll (prevents performance issues)
-
-- **Location Sharing**:
-  - Show preview, Stop sharing, Share ETA options
-  - Forward capability
-
-- **Message Reactions**: 
-  - Tick: Single tick for sent
-  - Double tick: Seen indicator (pink colored)
-
-- **Scroll Behavior**:
-  - Default scroll to bottom (latest messages)
-  - Load older messages on scroll up
-
-- **Message Updates**:
-  - If new message arrives while on different page, show count on message menu
-  - If on chat page with user A and message arrives from user B, user B moves to top but stays unselected (continue chatting with A)
-
-##### Group Chat
-- **List**: Shows group chats, with recent messages on top
-- **Unread Count**: Shows per group
-
-- **Unread Message Logic**:
-  - Example: 5 users in group, Person 1 (4 messages), Person 2 (6 messages), total 10 unread
-  - For all 3 other users: 10 unread
-  - For Person 1: 6 unread
-  - For Person 2: 4 unread
-  - When Person 3 reads: For others (1, 2, 4, 5) still unread; for Person 3 now read
-
-- **Group Information**: 
-  - Name of group
-  - All member names
-  - Accessible via "Contact Information" link
-
-- **Live Location Forwarding**:
-  - Forward chain maintains original duration
-  - Example: Person 1 shares 2 hrs from 12pm
-    - Person 1 → Person 2 (12pm)
-    - Person 1 → Person 3 (1pm, only 1 hr remaining)
-    - Person 2 → Person 4 (12:30pm)
-    - All stop sharing at 2pm (original end time)
-  - When Person 1 stops location: All forwarded locations stop
-  - Non-Teemlio user: Show name and profile from contact details
-  - Duplicate users: Show once on live location page
-
-### Notifications
-
-#### In-App Notifications
-- **Trigger**: When user/contact sends message
-- **Display**: 
-  - Notification badge on message icon (count increases)
-  - Unread count in message list
-  - Unread count on specific contact/user
-
-#### Push Notifications
-- **Title**: User/Contact name
-- **Description**: 
-  - Text message: Message preview
-  - Photo: "Photo" with icon
-  - Video: "Video" with icon
-  - File: "File" with icon
-  - Multiple media: "[count] Photo" (e.g., "3 Photo") with icon
-  - Long messages: Show with "…" truncation
-
-- **Action**: Click redirects to message page with selected chat open
-- **Count Display**: 
-  - Message menu shows total count
-  - Individual contact shows count per user
-
-### Chat Management
-
-#### Delete Chat
-- **Direct Chat**:
-  - Deleted by one user: Removed from their list only
-  - Deleted by both users: Removed from database, not visible to either
-  - If one user deletes then other messages again: Chat restarts for first user, shows all history
-  - Deleting then recreating direct message: Adds to list again
-  - Both delete then recreate: Adds to list but no old messages (deleted from db)
-
-- **Group Chat**:
-  - Delete for one user: Chat removed from their list, they're removed from group
-  - Other members see user removed from group
-  - After deleting: User can't message or add members
-  - If all members delete: All chat and media deleted from db and Digital Ocean
-  - If user deleted then re-added by another member: Group appears again
-  - If user deleted: Don't receive notifications for that group
-
-#### Archive Chat
-- **Archive Options**:
-  - Direct message → Archive
-  - Group chat → Archive
-  - Tab: "Archive" shows total (direct + group)
-
-- **Archive Rules**:
-  - One user archives: Doesn't archive for other user
-  - One user unarchives: Doesn't unarchive for other user
-  - If archived and message sent: Removed from archive for both users
-  - Show appropriate message on archive/restore
-
-- **Archive Message Examples**:
-  - "Archived Direct Message Restored"
-  - "Archived Direct Message Deleted"
-  - "Archived Group Chat Restored"
-  - "Archived Group Chat Deleted"
-
-### Live Location Page
-
-#### Event List (Left Panel)
-- **List Name**: Events
-- **Event Scope**: Current and future events only (recent on top)
-- **Content Display**:
-  - Show all events for company
-  - Remove deleted events from list
-- **Search**: By event name
-- **Filter**: By date range
-- **Default Selection**: Top event auto-selected, right panel shows its data
-
-#### Live Location Tracking (Right Panel)
-- **Display Mode**: Event-wise or per user/contact
-- **Map Display**:
-  - Click event → Show locations of all assigned specialists (if shared)
-  - Left panel: All event specialists list (with checkboxes)
-
-- **Specialist Management**:
-  - Non-Teemlio user: Show name from contact table
-  - Remove specialist from event: No longer shows on live location
-  - Add specialist to event: Appears on live location
-  - Duplicate specialists: Show once
-  - Overlapping locations: Display both on map clearly
-
-- **Location Request**:
-  - Select specialist(s) → Click "Request Location"
-  - Popup opens with message field
-  - Max character: 160
-  - Accept: Alphanumeric and special characters
-  - Error if missing: "Required"
-  - Send to selected specialist(s) only
-
-- **Active Location Sharing**:
-  - Show location icon
-  - Display on map with icon
-  - Show event location on map
-  - Calculate time from event location
-
-- **Location Details**:
-  - Click on user location: Show name, phone, estimated time to reach location
-  - Moving user: Show real-time movement on map
-  - Update estimated time as user moves
-
----
-
-## 12. Notification System
-
-### Notification Center (Web)
-
-#### Notification Menu
-- **Icon**: Bell icon in menu
-- **Badge**: Shows unread notification count
-- **Dropdown**: Shows 4-5 recent unread notifications
-- **Read More Button**: Opens full notification page
-
-#### Notification List
-- **Actions**:
-  - Click notification: Marks as read
-  - Mark All as Read button: Marks all as read
-- **Unread Count**: Decreases when notifications read
-
-#### Notification Types & Messages
-
-1. **Subscription Renewal**:
-   - Message: "Subscription Renew. Your subscription is about to expire. Renew now to avoid interruption."
-   - Trigger: Payment completed
-
-2. **Subscription Expiry Warning**:
-   - Message: "Subscription About to End. Your subscription is ending soon. Don't miss out—renew before it expires."
-   - Trigger: 7 days before subscription end
-
-3. **Payment Successful**:
-   - Message: "Payment Successful. Payment of $[amount] was received."
-   - Trigger: After successful payment
-
-4. **Subscription Ended**:
-   - Message: "Subscription Ended. Your plan has expired. Please renew to continue enjoying our services."
-   - Trigger: Upon subscription expiration
-
-#### Notification Timing
-- **Display Format**: Relative time
-  - "2 minutes ago"
-  - "2 days ago"
-  - "2 weeks ago"
-
-#### Message Notifications
-- **Excluded**: Messages don't show in notification center
-- **Separate**: Use unread message count on message icon instead
-
-### Notification Center (Mobile)
-
-#### Notification Panel
-- **Bell Icon**: On top of every page
-- **Badge**: Shows unread notification count
-- **List**: Shows all notifications with pagination
-- **Same Notifications**: As web version
-
-#### Notification Actions
-- **Click Notification**: Marks as read
-- **Mark All as Read**: Button on top of list
-- **Unread Count**: Decreases when notifications read
-
-#### Push Notifications
-- **Enabled**: For all notification types
-- **Chat Notifications**: Redirect directly to chat with person open
-- **Action on Click**: Redirect to notification page
-
-#### Sync Behavior
-- **Cross-Device**: Read in mobile → reflects as read in web (and vice versa)
-- **Unread Count**: Syncs across devices
-
-#### Empty State
-- **No Notifications**: "No Notifications Right Now. New Notifications will Appear Here When Available."
-
----
-
-## 13. General Rules Across All Features
-
-### Pagination
-- Implement consistent pagination across all list views
-- Show valid page numbers and navigation options
-
-### Formatting Support
-- Support for: Headers, Bold, Italic, Bullet lists, Numbered lists, Links
-- Apply across all rich text fields (descriptions, event details)
-
-### Error Handling
-- Consistent error messaging
-- Field highlighting for validation errors
-- Confirmation dialogs for destructive actions
-
-### Data Sync
-- Web and mobile synchronization for imported data
-- Real-time updates when data is modified
-- Chat messages, location tracking, event changes sync across devices
-- Notification read status syncs across web and mobile
-
-### User Experience
-- Hover effects (hand icon for clickable elements)
-- Responsive design for web and mobile
-- Accessible UI components
-- Smooth scrolling and transitions
-- Loading indicators for async operations
-
----
-
-## Architecture Notes
+## 13. General Architecture
 
 ### Data Relationships
-- **Users**: Company users with roles (Owner, Admin, Staff)
-- **Contacts**: Company contacts (can be external, Teemlio and non-Teemlio)
-- **Events**: Belong to company, have templates
-- **Templates**: Reusable event configurations
-- **Schedules/Tasks**: Can be template-level or event-level
-- **Inventory**: Can be global list or event-specific
-- **Chat Groups**: Can have multiple members
-- **Live Location**: Associated with events and users
-- **Subscriptions**: Company-level, with billing history
-- **Invoices**: Generated automatically or on-demand
-
-### Storage Considerations
-- Original and compressed file versions
-- Video thumbnails
-- Chat history and media
-- Deleted chat cleanup from Digital Ocean
-- Archived chat management
-
-### Notification System
-- Real-time in-app notifications
-- Push notifications with proper formatting
-- Badge counts for unread messages and notifications
-- Notification deduplication
-- Cross-device notification sync
-
-### Real-Time Features
-- Live location tracking with ETA calculation
-- Live chat updates
-- Real-time event synchronization
-- Specialist status updates
-- Notification delivery
-
-### Billing System
-- Subscription lifecycle management
-- Auto-renewal with payment processing
-- Prorated billing for mid-cycle changes
-- Invoice generation and management
-- Payment failure handling
-- User addition/removal billing logic
+- **Users**: Company users with roles
+- **Contacts**: External/internal contacts
+- **Events**: Company events with templates
+- **Subscriptions**: Company-level with billing
+- **Team Members**: Company staff with billing impact
+- **Chat**: Messages and groups
 
 ### Security & Permissions
-- Role-based access control (Owner, Admin, Staff)
-- Admin cannot manage subscriptions
-- Chat permissions (members only, except admin read-only)
-- Live location sharing permissions
-- File access restrictions per event
+- **Role-Based**: Owner, Admin, Staff
+- **Admin Limitations**: Cannot manage subscriptions, cannot send chat messages
+- **Notification Settings**: Independent per user
+- **Soft Deletes**: User and contact deletions
+- **Data Preservation**: Messages preserved on contact delete
+
+### Real-Time Features
+- **Live Location**: Map tracking with ETA
+- **Chat Sync**: Real-time message delivery
+- **Notifications**: Cross-device sync
+- **App Updates**: Dynamic version detection
+
